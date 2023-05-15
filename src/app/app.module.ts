@@ -21,7 +21,7 @@ import { EditItemComponent } from './shopping-list/edit-item/edit-item.component
     EditItemComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

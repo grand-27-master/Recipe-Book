@@ -2,6 +2,10 @@
     <div class="col-xs-10">
         <app-edit-item></app-edit-item>
         <hr>
-        <p>The list</p>
+        <ul class="list-group">
+            <a class="list-group-item" style="cursor: pointer;" *ngFor="let i of ingredients">
+                {{ i.name }} ({{ i.amount }})
+            </a>
+        </ul>
     </div>
 </div>
