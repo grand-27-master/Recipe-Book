@@ -12,4 +12,7 @@ export class RecipeListComponent {
       new Recipe('A Test Recipe','This is simply a test','./assets/recipe2.jpg'),
       new Recipe('A Test Recipe','This is simply a test','./assets/recipe3.jpg')
     ];
+
+    onRecipeSelected(){
+    }
 }
