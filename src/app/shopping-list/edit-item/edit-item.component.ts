@@ -5,7 +5,6 @@ import { ShoppingListService } from '../shopping-list.service';
 @Component({
   selector: 'app-edit-item',
   templateUrl: './edit-item.component.html',
-  styleUrls: ['./edit-item.component.css'],
   providers:[ShoppingListService]
 })
 export class EditItemComponent implements OnInit {
