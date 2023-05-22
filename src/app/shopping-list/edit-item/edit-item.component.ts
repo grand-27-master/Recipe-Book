@@ -33,19 +33,31 @@ export class EditItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  onAdd(form:NgForm) {
+  onSubmit(form:NgForm) {
     // console.log('add');
     const value = form.value;
     const newIngredient=new Ingredient(value.name,value.amount);
-    this.shoppinglistservice.addIngredient(newIngredient); 
+    if(this.editMode){
+      this.shoppinglistservice.updateIngredient(this.editedItemIndex,newIngredient);
+    }
+    
+    else{
+      this.shoppinglistservice.addIngredient(newIngredient); 
+    }
+    this.editMode=false;
+    form.reset();
   }
 
+
   onDelete() {
-    // console.log('delete');
+    console.log('delete');
+    this.shoppinglistservice.deleteIngredient(this.editedItemIndex);
+    this.onClear();
   }
 
   onClear() {
     // console.log('clear');
+    this.slForm.reset();
   }
 
   ngOnDestroy() {
