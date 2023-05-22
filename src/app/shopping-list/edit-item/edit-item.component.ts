@@ -1,24 +1,43 @@
-import { Component,ViewChild, ElementRef,EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Ingredient } from '../ingredient.model';
+import {NgForm} from '@angular/forms';
+import {ShoppingListService} from '../shopping-list.service';
+import {Subscription} from 'rxjs';  
 
 @Component({
   selector: 'app-edit-item',
   templateUrl: './edit-item.component.html',
 })
-export class EditItemComponent {
+export class EditItemComponent implements OnInit, OnDestroy {
 
-  ingredients:Ingredient[];
+  @ViewChild('f') slForm:NgForm;
 
-  @ViewChild('nameInput',{static:false}) nameInputRef: ElementRef;
-  @ViewChild('amountInput',{static:false}) amountInputRef: ElementRef;
-  @Output() ingredientAdded=new EventEmitter<Ingredient>();
+  subscription:Subscription;
+  editMode=false;
+  editedItemIndex:number;
+  editemItem:Ingredient;
+  constructor(private shoppinglistservice: ShoppingListService) { }
 
-  onAdd() {
+  ngOnInit() {
+    this.subscription=this.shoppinglistservice.startedEditing.subscribe(
+      (index:number)=>{
+        // console.log(index);
+        this.editMode=true;
+        this.editedItemIndex=index;
+        this.editemItem=this.shoppinglistservice.getIngredient(index);
+        this.slForm.setValue({
+          name:this.editemItem.name,
+          amount:this.editemItem.amount
+        });
+      }
+    );
+  }
+
+  onAdd(form:NgForm) {
     // console.log('add');
-    const ingredientName=this.nameInputRef.nativeElement.value;
-    const ingredientAmount=this.amountInputRef.nativeElement.value;
-    const newIngredient=new Ingredient(ingredientName,ingredientAmount);
-    this.ingredientAdded.emit(newIngredient);
+    const value = form.value;
+    const newIngredient=new Ingredient(value.name,value.amount);
+    this.shoppinglistservice.addIngredient(newIngredient); 
   }
 
   onDelete() {
@@ -27,5 +46,9 @@ export class EditItemComponent {
 
   onClear() {
     // console.log('clear');
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
