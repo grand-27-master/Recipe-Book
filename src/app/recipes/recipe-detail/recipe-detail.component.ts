@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
+import {ShoppingListService} from '../../shopping-list/shopping-list.service';
 import { ActivatedRoute } from '@angular/router';
 import {Params} from '@angular/router';
 import {Router} from '@angular/router';
@@ -36,5 +37,12 @@ onEditRecipe()
   // console.log("onEditRecipe() called");
   // this.router.navigate(['edit'],{relativeTo:this.route});
   this.router.navigate(['../',this.index,'edit'],{relativeTo:this.route});
+}
+
+onDeleteRecipe()
+{
+  // console.log("onDeleteRecipe() called");
+  // this.recipeService.deleteRecipe(this.index);
+  this.router.navigate(['/recipes']);
 }
 }
